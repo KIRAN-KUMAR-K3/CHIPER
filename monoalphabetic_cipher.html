@@ -37,6 +37,14 @@
             border: none;
             font-size: 1rem;
         }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+            border: none;
+            font-size: 1rem;
+        }
         button {
             padding: 10px 20px;
             margin-top: 10px;
@@ -59,21 +67,53 @@
     <h1>Monoalphabetic Cipher</h1>
     <div class="container">
         <textarea id="inputText" placeholder="Enter text to encrypt or decrypt..."></textarea>
+        <input type="text" id="cipherKey" placeholder="Enter Cipher Key (default will be generated)" />
         <button onclick="monoAlphabeticCipher()">Encrypt / Decrypt</button>
         <div class="result" id="result"></div>
     </div>
 
     <script>
-        const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        const cipherKey = "QAZWSXEDCRFVTGBYHNUJMIKOLP";
+        // Generate a random key based on the alphabet
+        function generateRandomKey() {
+            const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            let key = alphabet.split('');
+            for (let i = key.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [key[i], key[j]] = [key[j], key[i]]; // Swap elements
+            }
+            return key.join('');
+        }
 
+        // Default cipher key (auto-generated on page load)
+        const defaultKey = generateRandomKey();
+        document.getElementById("cipherKey").value = defaultKey;
+
+        const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        
         function monoAlphabeticCipher() {
-            let inputText = document.getElementById("inputText").value.toUpperCase().replace(/[^A-Z]/g, "");
+            let inputText = document.getElementById("inputText").value.toUpperCase();
+            let cipherKey = document.getElementById("cipherKey").value.toUpperCase();
             let resultText = "";
 
+            // Ensure the cipher key is exactly 26 characters (if not, use the default one)
+            if (cipherKey.length !== 26 || !/[A-Z]/.test(cipherKey)) {
+                cipherKey = defaultKey;
+                document.getElementById("cipherKey").value = defaultKey;
+            }
+
+            // Loop through each character of the input text
             for (let i = 0; i < inputText.length; i++) {
-                let charIndex = alphabet.indexOf(inputText[i]);
-                resultText += cipherKey[charIndex];
+                let char = inputText[i];
+
+                // Encrypt or decrypt if alphabetic
+                if (alphabet.includes(char)) {
+                    let charIndex = alphabet.indexOf(char);
+                    resultText += cipherKey[charIndex];
+                } 
+                // Preserve non-alphabet characters (like spaces or punctuation)
+                else {
+                    resultText += char;
+                }
             }
 
             document.getElementById("result").innerText = resultText;
@@ -81,4 +121,3 @@
     </script>
 </body>
 </html>
-
