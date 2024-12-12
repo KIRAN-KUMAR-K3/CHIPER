@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Polyalphabetic Cipher</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        /* General styling */
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+            margin-bottom: 20px;
+        }
+
+        /* Container for input area */
+        .container {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+            width: 100%;
+            max-width: 600px;
+            text-align: center;
+        }
+
+        textarea {
+            width: 100%;
+            height: 150px;
+            padding: 15px;
+            border-radius: 10px;
+            border: none;
+            font-size: 1.1rem;
+            color: #264653;
+            background-color: #f1faee;
+            margin-bottom: 20px;
+            resize: none;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #e9c46a;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            color: #264653;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        button:hover {
+            background-color: #f4a261;
+            transform: scale(1.05);
+        }
+
+        .result {
+            margin-top: 20px;
+            font-size: 1.3rem;
+            background: #264653;
+            padding: 15px;
+            border-radius: 10px;
+            color: #f1faee;
+            min-height: 50px;
+            word-wrap: break-word;
+        }
+    </style>
+</head>
+<body>
+    <h1>Polyalphabetic Cipher</h1>
+    <div class="container">
+        <textarea id="inputText" placeholder="Enter text to encrypt or decrypt..."></textarea>
+        <button onclick="polyAlphabeticCipher()">Encrypt / Decrypt</button>
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        function polyAlphabeticCipher() {
+            const key = "KEY";  // You can modify the key here or let the user input it
+            let inputText = document.getElementById("inputText").value.toUpperCase().replace(/[^A-Z]/g, "");
+            let resultText = "";
+            let keyIndex = 0;
+
+            for (let i = 0; i < inputText.length; i++) {
+                let charCode = inputText.charCodeAt(i);
+                let keyCode = key.charCodeAt(keyIndex % key.length);
+                let shift = keyCode - 65;
+                resultText += String.fromCharCode(((charCode - 65 + shift) % 26) + 65);
+                keyIndex++;
+            }
+
+            document.getElementById("result").innerText = resultText || "Please enter valid text.";
+        }
+    </script>
+</body>
+</html>
+

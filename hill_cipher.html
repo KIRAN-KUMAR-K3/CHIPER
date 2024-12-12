@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hill Cipher</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        textarea {
+            width: 100%;
+            height: 100px;
+            padding: 10px;
+            font-size: 16px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            resize: none;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            font-size: 18px;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .result {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #333;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <h1>Hill Cipher</h1>
+    <div class="container">
+        <textarea id="inputText" placeholder="Enter text to encrypt or decrypt..."></textarea>
+        <button onclick="hillCipher()">Encrypt / Decrypt</button>
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        function hillCipher() {
+            const keyMatrix = [
+                [6, 24, 1],
+                [13, 16, 10],
+                [20, 17, 15]
+            ];
+
+            let inputText = document.getElementById("inputText").value.toUpperCase().replace(/[^A-Z]/g, "");
+            let resultText = "";
+
+            // Ensure the input is a multiple of 3 characters for Hill Cipher encryption
+            if (inputText.length % 3 !== 0) {
+                inputText += 'X'.repeat(3 - (inputText.length % 3));  // Pad with 'X' if necessary
+            }
+
+            // Simple Hill Cipher implementation, input must be of length 3
+            for (let i = 0; i < inputText.length; i += 3) {
+                let block = inputText.slice(i, i + 3).split("").map(char => char.charCodeAt(0) - 65);
+                let encryptedBlock = multiplyMatrix(keyMatrix, block);
+
+                resultText += encryptedBlock.map(num => String.fromCharCode(num + 65)).join("");
+            }
+
+            document.getElementById("result").innerText = resultText;
+        }
+
+        function multiplyMatrix(matrix, vector) {
+            let result = [];
+            for (let i = 0; i < matrix.length; i++) {
+                result.push(matrix[i].reduce((sum, value, index) => sum + value * vector[index], 0) % 26);
+            }
+            return result;
+        }
+    </script>
+</body>
+</html>
+

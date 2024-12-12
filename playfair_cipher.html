@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Playfair Cipher</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        /* General styling */
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #ff7e5f, #feb47b);
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+            margin-bottom: 20px;
+        }
+
+        /* Container for input area */
+        .container {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+            width: 100%;
+            max-width: 600px;
+            text-align: center;
+        }
+
+        textarea {
+            width: 100%;
+            height: 150px;
+            padding: 15px;
+            border-radius: 10px;
+            border: none;
+            font-size: 1.1rem;
+            color: #264653;
+            background-color: #f1faee;
+            margin-bottom: 20px;
+            resize: none;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #e9c46a;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            color: #264653;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        button:hover {
+            background-color: #f4a261;
+            transform: scale(1.05);
+        }
+
+        .result {
+            margin-top: 20px;
+            font-size: 1.3rem;
+            background: #264653;
+            padding: 15px;
+            border-radius: 10px;
+            color: #f1faee;
+            min-height: 50px;
+            word-wrap: break-word;
+        }
+    </style>
+</head>
+<body>
+    <h1>Playfair Cipher</h1>
+    <div class="container">
+        <textarea id="inputText" placeholder="Enter text to encrypt or decrypt..."></textarea>
+        <button onclick="playfairCipher()">Encrypt / Decrypt</button>
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        function playfairCipher() {
+            // Simple implementation: Split into digraphs, then encode/decode based on Playfair rules
+            const key = "MONARCHY";
+            const matrix = createPlayfairMatrix(key);
+            let inputText = document.getElementById("inputText").value.toUpperCase().replace(/[^A-Z]/g, "").replace(/J/g, "I");
+            let digraphs = createDigraphs(inputText);
+
+            let resultText = digraphs.map(pair => {
+                return encryptPlayfair(pair, matrix);
+            }).join("");
+
+            document.getElementById("result").innerText = resultText;
+        }
+
+        function createPlayfairMatrix(key) {
+            let matrix = [];
+            let alphabet = "ABCDEFGHIKLMNOPQRSTUVWXYZ";
+            let used = new Set();
+            key = key.toUpperCase().replace(/[^A-Z]/g, "").replace(/J/g, "I");
+
+            for (let char of key) {
+                if (!used.has(char)) {
+                    used.add(char);
+                    matrix.push(char);
+                }
+            }
+
+            for (let char of alphabet) {
+                if (!used.has(char)) {
+                    used.add(char);
+                    matrix.push(char);
+                }
+            }
+
+            return matrix;
+        }
+
+        function createDigraphs(text) {
+            let digraphs = [];
+            for (let i = 0; i < text.length; i += 2) {
+                if (text[i] === text[i + 1]) {
+                    text = text.slice(0, i + 1) + "X" + text.slice(i + 1);
+                    i--; // Adjust index for the new pair
+                }
+                digraphs.push(text.slice(i, i + 2));
+            }
+            return digraphs;
+        }
+
+        function encryptPlayfair(pair, matrix) {
+            let index1 = matrix.indexOf(pair[0]);
+            let index2 = matrix.indexOf(pair[1]);
+            let row1 = Math.floor(index1 / 5), col1 = index1 % 5;
+            let row2 = Math.floor(index2 / 5), col2 = index2 % 5;
+
+            if (row1 === row2) {
+                return matrix[row1 * 5 + (col1 + 1) % 5] + matrix[row2 * 5 + (col2 + 1) % 5];
+            } else if (col1 === col2) {
+                return matrix[((row1 + 1) % 5) * 5 + col1] + matrix[((row2 + 1) % 5) * 5 + col2];
+            } else {
+                return matrix[row1 * 5 + col2] + matrix[row2 * 5 + col1];
+            }
+        }
+    </script>
+</body>
+</html>
+
