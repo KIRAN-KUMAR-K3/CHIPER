@@ -17,41 +17,56 @@
             align-items: center;
             justify-content: center;
             height: 100vh;
+            text-align: center;
         }
         h1 {
-            font-size: 2.5rem;
-            margin-bottom: 20px;
+            font-size: 3rem;
+            margin-bottom: 30px;
             text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
             color: #f1faee;
         }
         .container {
             display: flex;
-            flex-direction: column;
-            gap: 25px;
+            gap: 40px;
             width: 80%;
-            max-width: 600px;
-            text-align: center;
+            max-width: 1300px;
         }
         .input-box {
             background: #a29bfe;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+            width: 45%;
+        }
+        .input-box:hover {
+            transform: translateY(-5px);
+        }
+        .input-box h2 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: #fff;
+        }
+        .input-box p {
+            font-size: 1rem;
+            color: #f1faee;
+            margin-bottom: 20px;
         }
         .input-box input,
         .input-box select {
             width: 100%;
             padding: 12px;
             margin: 10px 0;
-            font-size: 1rem;
+            font-size: 1.1rem;
             border-radius: 8px;
             border: none;
             outline: none;
             background: #fff;
+            color: #333;
         }
         .input-box button {
             padding: 12px 20px;
-            font-size: 1rem;
+            font-size: 1.1rem;
             background-color: #7209b7;
             color: #fff;
             border: none;
@@ -67,11 +82,14 @@
             padding: 20px;
             border-radius: 8px;
             color: #fff;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
+            margin-top: 20px;
+            text-align: left;
+            display: none;
         }
         footer {
             position: absolute;
-            bottom: 10px;
+            bottom: 20px;
             font-size: 0.8rem;
             color: rgba(255, 255, 255, 0.7);
         }
@@ -80,13 +98,17 @@
 <body>
     <h1>Transposition Techniques</h1>
     <div class="container">
+        <!-- Single Transposition Section (Left Side) -->
         <div class="input-box">
             <h2>Single Transposition</h2>
             <p>A simple rearrangement of letters based on a fixed rule or key.</p>
             <input type="text" id="inputMessage" placeholder="Enter message" />
             <input type="text" id="singleKey" placeholder="Enter transposition key (numbers)" value="3,1,2" />
             <button onclick="performSingleTransposition()">Encrypt Message</button>
+            <div id="singleResult" class="result-box"></div>
         </div>
+
+        <!-- Double Transposition Section (Right Side) -->
         <div class="input-box">
             <h2>Double Transposition</h2>
             <p>Applies two rounds of transposition for added security.</p>
@@ -94,12 +116,13 @@
             <input type="text" id="doubleKey1" placeholder="Enter first transposition key (numbers)" value="4,2,3,1" />
             <input type="text" id="doubleKey2" placeholder="Enter second transposition key (numbers)" value="2,4,1,3" />
             <button onclick="performDoubleTransposition()">Encrypt Message</button>
+            <div id="doubleResult" class="result-box"></div>
         </div>
-
-        <div id="singleResult" class="result-box" style="display:none;"></div>
-        <div id="doubleResult" class="result-box" style="display:none;"></div>
     </div>
 
+    <footer>
+        <p>© 2024 Transposition Techniques | Created by Kiran Kumar K</p>
+    </footer>
 
     <script>
         function performSingleTransposition() {
