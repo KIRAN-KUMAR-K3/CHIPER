@@ -84,15 +84,15 @@
             <h2>Single Transposition</h2>
             <p>A simple rearrangement of letters based on a fixed rule or key.</p>
             <input type="text" id="inputMessage" placeholder="Enter message" />
-            <input type="text" id="singleKey" placeholder="Enter transposition key (numbers)" />
+            <input type="text" id="singleKey" placeholder="Enter transposition key (numbers)" value="3,1,2" />
             <button onclick="performSingleTransposition()">Encrypt Message</button>
         </div>
         <div class="input-box">
             <h2>Double Transposition</h2>
             <p>Applies two rounds of transposition for added security.</p>
             <input type="text" id="inputMessageDouble" placeholder="Enter message" />
-            <input type="text" id="doubleKey1" placeholder="Enter first transposition key (numbers)" />
-            <input type="text" id="doubleKey2" placeholder="Enter second transposition key (numbers)" />
+            <input type="text" id="doubleKey1" placeholder="Enter first transposition key (numbers)" value="4,2,3,1" />
+            <input type="text" id="doubleKey2" placeholder="Enter second transposition key (numbers)" value="2,4,1,3" />
             <button onclick="performDoubleTransposition()">Encrypt Message</button>
         </div>
 
@@ -133,7 +133,7 @@
 
         function singleTransposition(message, key) {
             let result = '';
-            key = key.split('').map(Number);
+            key = key.split(',').map(Number); // Convert the key to an array of numbers
             let rows = Math.ceil(message.length / key.length);
             let paddedMessage = message.padEnd(rows * key.length, 'X'); // Add padding for even length
 
