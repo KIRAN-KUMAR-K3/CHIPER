@@ -50,6 +50,17 @@
             resize: none;
         }
 
+        input[type="text"] {
+            padding: 10px;
+            width: 100%;
+            font-size: 1rem;
+            margin-top: 10px;
+            border-radius: 8px;
+            border: none;
+            background-color: #f1faee;
+            color: #264653;
+        }
+
         button {
             padding: 10px 20px;
             background-color: #e9c46a;
@@ -82,21 +93,27 @@
     <h1>Polyalphabetic Cipher</h1>
     <div class="container">
         <textarea id="inputText" placeholder="Enter text to encrypt or decrypt..."></textarea>
+        <input type="text" id="keyInput" placeholder="Enter cipher key" value="KEY">
         <button onclick="polyAlphabeticCipher()">Encrypt / Decrypt</button>
         <div class="result" id="result"></div>
     </div>
 
     <script>
         function polyAlphabeticCipher() {
-            const key = "KEY";  // You can modify the key here or let the user input it
+            let key = document.getElementById("keyInput").value.toUpperCase().replace(/[^A-Z]/g, ""); // Key input
             let inputText = document.getElementById("inputText").value.toUpperCase().replace(/[^A-Z]/g, "");
             let resultText = "";
             let keyIndex = 0;
 
+            if (key === "") {
+                document.getElementById("result").innerText = "Please enter a key.";
+                return;
+            }
+
             for (let i = 0; i < inputText.length; i++) {
                 let charCode = inputText.charCodeAt(i);
                 let keyCode = key.charCodeAt(keyIndex % key.length);
-                let shift = keyCode - 65;
+                let shift = keyCode - 65; // A=0, B=1, ..., Z=25
                 resultText += String.fromCharCode(((charCode - 65 + shift) % 26) + 65);
                 keyIndex++;
             }
@@ -106,4 +123,3 @@
     </script>
 </body>
 </html>
-
