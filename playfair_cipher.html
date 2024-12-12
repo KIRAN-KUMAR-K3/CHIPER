@@ -76,20 +76,28 @@
             min-height: 50px;
             word-wrap: break-word;
         }
+
+        .key-input {
+            margin-bottom: 20px;
+            padding: 10px;
+            font-size: 1rem;
+            border-radius: 5px;
+            width: 100%;
+        }
     </style>
 </head>
 <body>
     <h1>Playfair Cipher</h1>
     <div class="container">
         <textarea id="inputText" placeholder="Enter text to encrypt or decrypt..."></textarea>
+        <input type="text" id="keyInput" class="key-input" placeholder="Enter Key (Auto Generated if Empty)" oninput="generateKey()">
         <button onclick="playfairCipher()">Encrypt / Decrypt</button>
         <div class="result" id="result"></div>
     </div>
 
     <script>
         function playfairCipher() {
-            // Simple implementation: Split into digraphs, then encode/decode based on Playfair rules
-            const key = "MONARCHY";
+            let key = document.getElementById("keyInput").value || generateKey();  // If no key provided, generate a new one
             const matrix = createPlayfairMatrix(key);
             let inputText = document.getElementById("inputText").value.toUpperCase().replace(/[^A-Z]/g, "").replace(/J/g, "I");
             let digraphs = createDigraphs(inputText);
@@ -101,9 +109,33 @@
             document.getElementById("result").innerText = resultText;
         }
 
+        function generateKey() {
+            let inputText = document.getElementById("inputText").value.toUpperCase().replace(/[^A-Z]/g, "").replace(/J/g, "I");
+            let key = "";
+            let used = new Set();
+
+            for (let i = 0; i < inputText.length; i++) {
+                if (!used.has(inputText[i])) {
+                    key += inputText[i];
+                    used.add(inputText[i]);
+                }
+            }
+
+            // Add the rest of the alphabet if the key length is less than 25
+            const alphabet = "ABCDEFGHIKLMNOPQRSTUVWXYZ";
+            for (let char of alphabet) {
+                if (!used.has(char)) {
+                    key += char;
+                    used.add(char);
+                }
+            }
+
+            document.getElementById("keyInput").value = key;
+            return key;
+        }
+
         function createPlayfairMatrix(key) {
             let matrix = [];
-            let alphabet = "ABCDEFGHIKLMNOPQRSTUVWXYZ";
             let used = new Set();
             key = key.toUpperCase().replace(/[^A-Z]/g, "").replace(/J/g, "I");
 
@@ -114,6 +146,7 @@
                 }
             }
 
+            const alphabet = "ABCDEFGHIKLMNOPQRSTUVWXYZ";
             for (let char of alphabet) {
                 if (!used.has(char)) {
                     used.add(char);
@@ -153,4 +186,3 @@
     </script>
 </body>
 </html>
-
