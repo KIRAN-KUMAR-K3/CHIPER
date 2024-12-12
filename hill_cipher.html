@@ -3,14 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hill Cipher</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <title>Hill Cipher Encryption</title>
     <style>
         body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #f4f4f9;
-            margin: 0;
-            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #f2f2f2;
+            color: #333;
+            padding: 20px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -18,19 +17,22 @@
         }
 
         h1 {
-            color: #333;
             text-align: center;
-            margin-bottom: 20px;
+            color: #4CAF50;
         }
 
         .container {
-            background-color: #fff;
-            padding: 30px;
+            width: 80%;
+            max-width: 800px;
+            background-color: #ffffff;
+            padding: 20px;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            max-width: 400px;
-            width: 100%;
+        }
+
+        .input-section,
+        .output-section {
+            margin-bottom: 20px;
         }
 
         textarea {
@@ -38,79 +40,163 @@
             height: 100px;
             padding: 10px;
             font-size: 16px;
-            margin-bottom: 20px;
+            border: 2px solid #ddd;
             border-radius: 5px;
-            border: 1px solid #ddd;
-            resize: none;
+            margin-bottom: 15px;
+        }
+
+        .matrix-input {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .matrix-input input {
+            padding: 10px;
+            font-size: 16px;
+            text-align: center;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
         }
 
         button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
             background-color: #4CAF50;
             color: white;
-            font-size: 18px;
             border: none;
-            padding: 10px 20px;
             border-radius: 5px;
-            cursor: pointer;
-            width: 100%;
-            transition: background-color 0.3s ease;
+            margin: 5px;
         }
 
         button:hover {
             background-color: #45a049;
         }
 
-        .result {
+        .result-section {
+            padding: 10px;
+            background-color: #e8f5e9;
+            border-radius: 5px;
             margin-top: 20px;
             font-size: 18px;
-            color: #333;
-            font-weight: 600;
+        }
+
+        .result {
+            font-weight: bold;
+        }
+
+        .clear-button {
+            background-color: #f44336;
+        }
+
+        .clear-button:hover {
+            background-color: #e53935;
         }
     </style>
 </head>
 <body>
-    <h1>Hill Cipher</h1>
+
     <div class="container">
-        <textarea id="inputText" placeholder="Enter text to encrypt or decrypt..."></textarea>
-        <button onclick="hillCipher()">Encrypt / Decrypt</button>
-        <div class="result" id="result"></div>
+        <h1>Hill Cipher Encryption</h1>
+        
+        <div class="input-section">
+            <label for="inputText">Enter Text to Encrypt:</label>
+            <textarea id="inputText" placeholder="Enter text to encrypt..."></textarea>
+            
+            <label>Enter Key Matrix (3x3):</label>
+            <div class="matrix-input">
+                <input type="number" id="key11" placeholder="a11">
+                <input type="number" id="key12" placeholder="a12">
+                <input type="number" id="key13" placeholder="a13">
+                <input type="number" id="key21" placeholder="a21">
+                <input type="number" id="key22" placeholder="a22">
+                <input type="number" id="key23" placeholder="a23">
+                <input type="number" id="key31" placeholder="a31">
+                <input type="number" id="key32" placeholder="a32">
+                <input type="number" id="key33" placeholder="a33">
+            </div>
+        </div>
+
+        <div class="button-container">
+            <button onclick="encryptText()">Encrypt</button>
+            <button class="clear-button" onclick="clearFields()">Clear</button>
+        </div>
+
+        <div class="result-section">
+            <div id="result" class="result"></div>
+        </div>
     </div>
 
     <script>
-        function hillCipher() {
-            const keyMatrix = [
-                [6, 24, 1],
-                [13, 16, 10],
-                [20, 17, 15]
-            ];
+        // Default key matrix values
+        const defaultKeyMatrix = [
+            [6, 24, 1],
+            [13, 16, 10],
+            [20, 17, 15]
+        ];
 
-            let inputText = document.getElementById("inputText").value.toUpperCase().replace(/[^A-Z]/g, "");
-            let resultText = "";
-
-            // Ensure the input is a multiple of 3 characters for Hill Cipher encryption
-            if (inputText.length % 3 !== 0) {
-                inputText += 'X'.repeat(3 - (inputText.length % 3));  // Pad with 'X' if necessary
-            }
-
-            // Simple Hill Cipher implementation, input must be of length 3
-            for (let i = 0; i < inputText.length; i += 3) {
-                let block = inputText.slice(i, i + 3).split("").map(char => char.charCodeAt(0) - 65);
-                let encryptedBlock = multiplyMatrix(keyMatrix, block);
-
-                resultText += encryptedBlock.map(num => String.fromCharCode(num + 65)).join("");
-            }
-
-            document.getElementById("result").innerText = resultText;
-        }
-
+        // Function to multiply matrix with vector
         function multiplyMatrix(matrix, vector) {
             let result = [];
             for (let i = 0; i < matrix.length; i++) {
-                result.push(matrix[i].reduce((sum, value, index) => sum + value * vector[index], 0) % 26);
+                result[i] = matrix[i].reduce((sum, val, index) => sum + val * vector[index], 0) % 26;
             }
             return result;
         }
+
+        // Function to encrypt the input text using the Hill cipher
+        function encryptText() {
+            let inputText = document.getElementById("inputText").value.toUpperCase().replace(/[^A-Z]/g, "");
+            if (inputText === "") {
+                alert("Please enter text to encrypt.");
+                return;
+            }
+
+            // Get the key matrix from the inputs or use default values if not provided
+            let keyMatrix = [
+                [
+                    parseInt(document.getElementById("key11").value) || defaultKeyMatrix[0][0],
+                    parseInt(document.getElementById("key12").value) || defaultKeyMatrix[0][1],
+                    parseInt(document.getElementById("key13").value) || defaultKeyMatrix[0][2]
+                ],
+                [
+                    parseInt(document.getElementById("key21").value) || defaultKeyMatrix[1][0],
+                    parseInt(document.getElementById("key22").value) || defaultKeyMatrix[1][1],
+                    parseInt(document.getElementById("key23").value) || defaultKeyMatrix[1][2]
+                ],
+                [
+                    parseInt(document.getElementById("key31").value) || defaultKeyMatrix[2][0],
+                    parseInt(document.getElementById("key32").value) || defaultKeyMatrix[2][1],
+                    parseInt(document.getElementById("key33").value) || defaultKeyMatrix[2][2]
+                ]
+            ];
+
+            let resultText = "";
+
+            // Process the input in 3-character blocks
+            for (let i = 0; i < inputText.length; i += 3) {
+                let block = inputText.slice(i, i + 3).split('').map(char => char.charCodeAt(0) - 65);
+                let encryptedBlock = multiplyMatrix(keyMatrix, block);
+                resultText += encryptedBlock.map(num => String.fromCharCode((num + 65) % 26 + 65)).join("");
+            }
+
+            document.getElementById("result").innerText = `Encrypted Text: ${resultText}`;
+        }
+
+        // Clear input and result fields
+        function clearFields() {
+            document.getElementById("inputText").value = "";
+            document.getElementById("result").innerText = "";
+            document.querySelectorAll('.matrix-input input').forEach(input => input.value = "");
+        }
     </script>
+
 </body>
 </html>
-
