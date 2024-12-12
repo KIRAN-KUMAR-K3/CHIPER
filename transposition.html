@@ -19,53 +19,137 @@
             height: 100vh;
         }
         h1 {
-            font-size: 2rem;
+            font-size: 2.5rem;
             margin-bottom: 20px;
             text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
+            color: #f1faee;
         }
-        .options {
+        .container {
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 25px;
             width: 80%;
-            max-width: 500px;
+            max-width: 600px;
+            text-align: center;
         }
-        .option {
+        .input-box {
             background: #a29bfe;
-            padding: 15px 20px;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        .input-box input,
+        .input-box select {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            font-size: 1rem;
+            border-radius: 8px;
+            border: none;
+            outline: none;
+            background: #fff;
+        }
+        .input-box button {
+            padding: 12px 20px;
+            font-size: 1rem;
+            background-color: #7209b7;
+            color: #fff;
+            border: none;
             border-radius: 8px;
             cursor: pointer;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            transition: background 0.3s, box-shadow 0.3s;
+            transition: background-color 0.3s;
         }
-        .option:hover {
-            background: #7f78d2;
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+        .input-box button:hover {
+            background-color: #a29bfe;
         }
-        .option h2 {
-            font-size: 1.2rem;
-            margin: 0;
-            color: #2d3436;
+        .result-box {
+            background: #2d3436;
+            padding: 20px;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 1.1rem;
         }
-        .option p {
-            font-size: 0.9rem;
-            margin: 5px 0 0;
-            color: #2d3436;
+        footer {
+            position: absolute;
+            bottom: 10px;
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.7);
         }
     </style>
 </head>
 <body>
     <h1>Transposition Techniques</h1>
-    <div class="options">
-        <div class="option">
+    <div class="container">
+        <div class="input-box">
             <h2>Single Transposition</h2>
             <p>A simple rearrangement of letters based on a fixed rule or key.</p>
+            <input type="text" id="inputMessage" placeholder="Enter message" />
+            <input type="text" id="singleKey" placeholder="Enter transposition key (numbers)" />
+            <button onclick="performSingleTransposition()">Encrypt Message</button>
         </div>
-        <div class="option">
+        <div class="input-box">
             <h2>Double Transposition</h2>
             <p>Applies two rounds of transposition for added security.</p>
+            <input type="text" id="inputMessageDouble" placeholder="Enter message" />
+            <input type="text" id="doubleKey1" placeholder="Enter first transposition key (numbers)" />
+            <input type="text" id="doubleKey2" placeholder="Enter second transposition key (numbers)" />
+            <button onclick="performDoubleTransposition()">Encrypt Message</button>
         </div>
+
+        <div id="singleResult" class="result-box" style="display:none;"></div>
+        <div id="doubleResult" class="result-box" style="display:none;"></div>
     </div>
+
+
+    <script>
+        function performSingleTransposition() {
+            const message = document.getElementById('inputMessage').value;
+            const key = document.getElementById('singleKey').value;
+
+            if (!message || !key) {
+                alert("Please enter both message and key.");
+                return;
+            }
+
+            const result = singleTransposition(message, key);
+            document.getElementById('singleResult').style.display = 'block';
+            document.getElementById('singleResult').innerHTML = `<strong>Encrypted Message:</strong> ${result}`;
+        }
+
+        function performDoubleTransposition() {
+            const message = document.getElementById('inputMessageDouble').value;
+            const key1 = document.getElementById('doubleKey1').value;
+            const key2 = document.getElementById('doubleKey2').value;
+
+            if (!message || !key1 || !key2) {
+                alert("Please enter both message and keys.");
+                return;
+            }
+
+            const result = doubleTransposition(message, key1, key2);
+            document.getElementById('doubleResult').style.display = 'block';
+            document.getElementById('doubleResult').innerHTML = `<strong>Encrypted Message:</strong> ${result}`;
+        }
+
+        function singleTransposition(message, key) {
+            let result = '';
+            key = key.split('').map(Number);
+            let rows = Math.ceil(message.length / key.length);
+            let paddedMessage = message.padEnd(rows * key.length, 'X'); // Add padding for even length
+
+            for (let i = 0; i < key.length; i++) {
+                for (let j = 0; j < rows; j++) {
+                    result += paddedMessage[j * key.length + key.indexOf(i + 1)];
+                }
+            }
+            return result;
+        }
+
+        function doubleTransposition(message, key1, key2) {
+            let firstPass = singleTransposition(message, key1);
+            let secondPass = singleTransposition(firstPass, key2);
+            return secondPass;
+        }
+    </script>
 </body>
 </html>
-
