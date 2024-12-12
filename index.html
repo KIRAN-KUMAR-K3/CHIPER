@@ -6,11 +6,12 @@
     <title>Encryption Techniques</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
+        /* Body and Background */
         body {
             font-family: 'Poppins', sans-serif;
             margin: 0;
             padding: 0;
-            background: linear-gradient(135deg, #1d3557, #457b9d);
+            background: linear-gradient(135deg, #1d3557, #457b9d, #a8dadc);
             color: #fff;
             display: flex;
             flex-direction: column;
@@ -18,40 +19,124 @@
             justify-content: center;
             height: 100vh;
             overflow: hidden;
+            text-align: center;
         }
+        
+        /* Title */
         h1 {
-            font-size: 2.5rem;
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+            font-size: 4rem;
+            color: #f1faee;
+            margin-bottom: 30px;
+            text-shadow: 3px 3px 15px rgba(0, 0, 0, 0.4);
+            letter-spacing: 3px;
+            animation: fadeIn 2s ease-out;
         }
+
+        /* Boxes Container */
         .container {
             display: flex;
-            gap: 30px;
+            gap: 40px;
             justify-content: center;
+            align-items: center;
+            margin-bottom: 40px;
+            animation: fadeInUp 2s ease-out;
         }
+
+        /* Individual Boxes */
         .box {
             background: #457b9d;
-            border-radius: 12px;
-            padding: 20px 40px;
+            border-radius: 20px;
+            padding: 40px 60px;
             text-align: center;
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 6px 30px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+            width: 240px;
+            height: 240px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            background-image: radial-gradient(circle, rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0.1));
         }
+
         .box:hover {
-            transform: scale(1.1);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+            transform: translateY(-15px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+            background-color: #1d3557;
         }
+
         .box h2 {
-            font-size: 1.5rem;
-            margin: 0;
+            font-size: 2rem;
             color: #f1faee;
+            margin: 0;
+            padding: 15px 0;
+            text-transform: uppercase;
+            transition: color 0.3s ease;
         }
+
+        .box:hover h2 {
+            color: #a8dadc;
+        }
+
+        /* Footer */
         footer {
             position: absolute;
             bottom: 10px;
-            font-size: 0.8rem;
+            font-size: 1rem;
             color: rgba(255, 255, 255, 0.7);
+            letter-spacing: 1px;
+        }
+
+        footer a {
+            text-decoration: none;
+            color: #a8dadc;
+            font-weight: 600;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+            color: #f1faee;
+        }
+
+        /* Keyframe Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Media Queries */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                gap: 25px;
+            }
+
+            h1 {
+                font-size: 2.8rem;
+            }
+
+            .box {
+                width: 200px;
+                height: 200px;
+            }
         }
     </style>
 </head>
@@ -65,7 +150,8 @@
             <h2>Transposition</h2>
         </div>
     </div>
-    <footer>Made with 💻 by Kiran</footer>
+    <footer>Made with 💻 by <a href="https://www.linkedin.com/in/kiran-kumar-k" target="_blank">Kiran</a></footer>
+
     <script>
         function navigate(page) {
             window.location.href = page;
@@ -73,4 +159,3 @@
     </script>
 </body>
 </html>
-
