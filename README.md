@@ -84,11 +84,11 @@ Rearranges the letters of the plaintext to create ciphertext based on a fixed ru
 ### Home Page
 ![Home Page](https://github.com/KIRAN-KUMAR-K3/CHIPER/blob/main/img/Screenshot%20From%202024-12-14%2011-31-13.png)
 
-### Monoalphabetic Cipher Demo
+### Substituion Techniques
 ![Substituion Techniques](https://github.com/KIRAN-KUMAR-K3/CHIPER/blob/main/img/Screenshot%20From%202024-12-14%2011-31-31.png)
 
 
-### Monoalphabetic Cipher Demo
+### Transpotation Techniques
 ![Transpotation Techniques](https://github.com/KIRAN-KUMAR-K3/CHIPER/blob/main/img/Screenshot%20From%202024-12-14%2011-31-54.png)
 
 ---
