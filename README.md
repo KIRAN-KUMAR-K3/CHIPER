@@ -1,7 +1,7 @@
-
 # CHIPER
-
-![Project Banner](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTCMlUT8arR581HlQVNGAJO9YsU760C6USD6w&s)
+<p align="center">
+  <img src="https://www.stackzero.net/wp-content/uploads/2023/03/substitution_cipher_basics_featured.jpg" width="200" alt="Project Logo">
+</p>
 
 **CHIPER** is a comprehensive collection of classical cryptographic techniques implemented in **HTML**, **CSS**, and **JavaScript**. It serves as an educational resource for anyone interested in understanding the foundations of cryptography. Explore various encryption and decryption algorithms through interactive web-based demonstrations.
 
