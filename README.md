@@ -85,7 +85,7 @@ Rearranges the letters of the plaintext to create ciphertext based on a fixed ru
 ![Home Page](https://github.com/KIRAN-KUMAR-K3/CHIPER/blob/main/img/Screenshot%20From%202024-12-14%2011-31-13.png)
 
 ### Monoalphabetic Cipher Demo
-![Monoalphabetic Cipher](https://via.placeholder.com/800x400?text=Monoalphabetic+Cipher+Preview)
+![Substituion Technique](https://github.com/KIRAN-KUMAR-K3/CHIPER/blob/main/img/Screenshot%20From%202024-12-14%2011-31-31.png)
 
 
 ### Monoalphabetic Cipher Demo
