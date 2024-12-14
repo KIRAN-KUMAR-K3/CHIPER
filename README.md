@@ -114,12 +114,6 @@ Connect with me on [GitHub](https://github.com/KIRAN-KUMAR-K3) | [LinkedIn](http
 
 ---
 
-## 🌐 Live Demo
-
-Check out the live demo [here](#).
-
----
-
 ## 🤝 Contributing
 
 Contributions are welcome! If you'd like to improve this project, follow these steps:
