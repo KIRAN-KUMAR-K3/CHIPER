@@ -82,7 +82,11 @@ Rearranges the letters of the plaintext to create ciphertext based on a fixed ru
 ## 📸 Screenshots
 
 ### Home Page
-![Home Page](https://via.placeholder.com/800x400?text=Home+Page+Preview)
+![Home Page](https://github.com/KIRAN-KUMAR-K3/CHIPER/blob/main/img/Screenshot%20From%202024-12-14%2011-31-13.png)
+
+### Monoalphabetic Cipher Demo
+![Monoalphabetic Cipher](https://via.placeholder.com/800x400?text=Monoalphabetic+Cipher+Preview)
+
 
 ### Monoalphabetic Cipher Demo
 ![Monoalphabetic Cipher](https://via.placeholder.com/800x400?text=Monoalphabetic+Cipher+Preview)
