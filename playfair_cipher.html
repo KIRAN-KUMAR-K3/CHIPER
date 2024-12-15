@@ -90,14 +90,14 @@
     <h1>Playfair Cipher</h1>
     <div class="container">
         <textarea id="inputText" placeholder="Enter text to encrypt or decrypt..."></textarea>
-        <input type="text" id="keyInput" class="key-input" placeholder="Enter Key (Auto Generated if Empty)" oninput="generateKey()">
+        <input type="text" id="keyInput" class="key-input" placeholder="Enter Key (Auto Generated if Empty)">
         <button onclick="playfairCipher()">Encrypt / Decrypt</button>
         <div class="result" id="result"></div>
     </div>
 
     <script>
         function playfairCipher() {
-            let key = document.getElementById("keyInput").value || generateKey();  // If no key provided, generate a new one
+            let key = document.getElementById("keyInput").value || generateKey();
             const matrix = createPlayfairMatrix(key);
             let inputText = document.getElementById("inputText").value.toUpperCase().replace(/[^A-Z]/g, "").replace(/J/g, "I");
             let digraphs = createDigraphs(inputText);
@@ -121,7 +121,6 @@
                 }
             }
 
-            // Add the rest of the alphabet if the key length is less than 25
             const alphabet = "ABCDEFGHIKLMNOPQRSTUVWXYZ";
             for (let char of alphabet) {
                 if (!used.has(char)) {
@@ -160,11 +159,14 @@
         function createDigraphs(text) {
             let digraphs = [];
             for (let i = 0; i < text.length; i += 2) {
-                if (text[i] === text[i + 1]) {
-                    text = text.slice(0, i + 1) + "X" + text.slice(i + 1);
-                    i--; // Adjust index for the new pair
+                let first = text[i];
+                let second = text[i + 1] || "X";
+
+                if (first === second) {
+                    second = "X";
+                    i--; // Adjust for added character
                 }
-                digraphs.push(text.slice(i, i + 2));
+                digraphs.push(first + second);
             }
             return digraphs;
         }
