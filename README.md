@@ -134,5 +134,4 @@ Contributions are welcome! If you'd like to improve this project, follow these s
 5. Submit a pull request.
 
 ---
-
 ### ⭐ Don't forget to star the repo if you found it useful!
